@@ -108,3 +108,11 @@ def sandpile_pour(length, height, drop_x, drop_y, drop_pour = 100000, topple = 4
     plt.show  
     
 sandpile_pour(501, 501, "centre", "centre", drop_pour = 1000000, collapse_height = 4)
+
+def plot_scatter(fall)    
+    counter = collections.Counter(fall) #scatter plot collapses frequency vs collapse number
+    plt.scatter(counter.keys(),counter.values())
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.show()
+    
