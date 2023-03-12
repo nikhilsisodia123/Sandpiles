@@ -65,7 +65,7 @@ def sandpile(length, height, iterations, initial = "random",drop = "centre", dro
 
     plt.pcolormesh(grid)
     plt.show    
-    #return grid, fall
+    return grid, fall
 
 sandpile(501, 501, 100000, initial = "random", drop = "random", dropsize = 1)
 
