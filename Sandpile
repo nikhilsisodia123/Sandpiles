@@ -1,0 +1,71 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import collections
+
+def drop(grid,x,y,size):
+    grid[y][x] += size
+    
+def rand_drop(grid, size):
+    dim = np.shape(grid)
+    grid[np.random.randint(0, dim[0])][np.random.randint(0, dim[1])] += size
+    
+def iter_sandpile(grid, drop_x, drop_y, dropsize, topple = 4, ug = 1, dg = 1, lg = 1, rg = 1):
+    tot_collapse = 0
+    drop(grid, drop_x, drop_y, dropsize)
+    Bool = grid >= topple
+    collapse = np.count_nonzero(Bool == True)
+    tot_collapse += collapse
+    while collapse > 0:       
+        grid[Bool] -= topple
+
+        grid[1:,:][Bool[:-1,:]] += dg
+        grid[:-1,:][Bool[1:,:]] += ug
+        grid[:,1:][Bool[:,:-1]] += rg
+        grid[:,:-1][Bool[:,1:]] += lg
+
+        Bool = grid >= topple
+        collapse = np.count_nonzero(Bool == True)
+        tot_collapse += collapse
+    return tot_collapse
+
+def iter_sandpile_rand(grid, dropsize, topple = 4, ug = 1, dg = 1, lg = 1, rg = 1):
+    tot_collapse = 0
+    rand_drop(grid)
+    Bool = grid >= topple
+    collapse = np.count_nonzero(Bool == True)
+    tot_collapse += collapse
+    while collapse > 0:       
+        grid[Bool] -= topple
+
+        grid[1:,:][Bool[:-1,:]] += dg
+        grid[:-1,:][Bool[1:,:]] += ug
+        grid[:,1:][Bool[:,:-1]] += rg
+        grid[:,:-1][Bool[:,1:]] += lg
+
+        Bool = grid >= topple
+        collapse = np.count_nonzero(Bool == True)
+        tot_collapse += collapse
+    return tot_collapse
+
+def sandpile(length, height, iterations, drop = "centre", dropsize = 4, topple = 4, ug = 1, dg = 1, lg = 1, rg = 1):
+    
+    grid = np.zeros([height,length]) #Creating the sandpile grid
+    if drop == "centre":
+        drop= [int(np.floor(length/2)), int(np.floor(height/2))]
+
+    n = 0
+    fall = np.zeros([iterations]) #data allocation
+    if drop == "random":
+        while n < iterations:
+            fall[n] = iter_sandpile_rand(grid, dropsize)
+            n += 1
+    else:
+        while n < iterations:
+            fall[n] = iter_sandpile(grid, drop[0], drop[1], dropsize)
+            n += 1
+
+    plt.pcolormesh(grid)
+    plt.show    
+    return grid, fall
+
+sandpile(101, 101, 100000, "centre")
