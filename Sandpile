@@ -93,7 +93,7 @@ def sandpile_pour(length, height, drop_x, drop_y, drop_pour = 100000, topple = 4
         grid[:,1:][Bool[:,:-1]] += 1
         grid[:,:-1][Bool[:,1:]] += 1
 
-        Bool = grid >= 4
+        Bool = grid >= topple
         collapse = np.count_nonzero(Bool == True)
         fall.append(collapse)
         tot_collapse = 0
