@@ -67,12 +67,7 @@ def sandpile(length, height, iterations, initial = "random",drop = "centre", dro
     plt.show    
     return grid, fall
 
-piles = sandpile(501, 501, 100000, initial = "random", drop = "random", dropsize = 1)
-
-#Sandpile where all the grains are dropped into the centre in one go. 
-#Each cell can collapse only once, where collapse means a decrease of 4 grains in a cell
-def drop(grid,x,y,size):
-    grid[y][x] += size
+piles = sandpile(501, 501, 10000, initial = "random", drop = "random", dropsize = 4)
 
 def sandpile_pour(length, height, drop_x, drop_y, drop_pour = 100000, topple = 4):
     if drop_x == "centre":
@@ -108,13 +103,6 @@ def sandpile_pour(length, height, drop_x, drop_y, drop_pour = 100000, topple = 4
     plt.show  
     
 sandpile_pour(501, 501, "centre", "centre", drop_pour = 1000000, collapse_height = 4)
-
-def plot_scatter(fall)    
-    counter = collections.Counter(fall) #scatter plot collapses frequency vs collapse number
-    plt.scatter(counter.keys(),counter.values())
-    plt.xscale("log")
-    plt.yscale("log")
-    plt.show()
     
 #turn fall array into bar chart (maybe interactive?)
 plt.hist(piles[1], bins=np.logspace(0, 12, num=10, base=2), log=True)
